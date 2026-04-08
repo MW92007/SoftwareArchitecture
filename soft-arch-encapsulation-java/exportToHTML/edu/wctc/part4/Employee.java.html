@@ -1,0 +1,231 @@
+<html>
+<head>
+<title>Employee.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #5f826b; font-style: italic;}
+.s4 { color: #68a67e; font-style: italic;}
+.s5 { color: #7a7e85;}
+.s6 { color: #6aab73;}
+.s7 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#191a1c">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Employee.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">edu</span><span class="s2">.</span><span class="s1">wctc</span><span class="s2">.</span><span class="s1">part4</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">time</span><span class="s2">.</span><span class="s1">LocalDate</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">time</span><span class="s2">.</span><span class="s1">format</span><span class="s2">.</span><span class="s1">DateTimeFormatter</span><span class="s2">;</span>
+
+
+<span class="s3">/**</span>
+ <span class="s3">* As with part3 you should focus on CLASS Encapsulation and the</span>
+ <span class="s3">* Single Responsibility Principle (SRP). However what makes this lab DIFFERENT</span>
+ <span class="s3">* is that in a real program you would need more than just an Employee class and</span>
+ <span class="s3">* a EmployeeReportService class. Remember what you learned about OOAD and</span>
+ <span class="s3">* finding the Conceptual Objects in the Problem Domain.</span>
+ <span class="s3">* </span><span class="s4">&lt;p&gt;</span>
+ <span class="s3">* Pay special attention to the following issues:</span>
+ <span class="s3">* </span><span class="s4">&lt;p&gt;</span>
+ <span class="s3">* 1. You will need additional classes to simulate the real world. To keep things</span>
+ <span class="s3">* simple you should think about adding two more classes. Think about how employees</span>
+ <span class="s3">* are hired, who does the hiring and who do those people work for. Think about the</span>
+ <span class="s3">* Nouns used in business with respect to hiring employees and commanding them to go</span>
+ <span class="s3">* through orientation.</span>
+ <span class="s3">* </span><span class="s4">&lt;p&gt;</span>
+ <span class="s3">* 2. When adding these classes think about the Single Responsibility Principle</span>
+ <span class="s3">* and Class Encapsulation -- hiding classes inside other classes, similar to</span>
+ <span class="s3">* what you did with the report service which was hidden inside the Employee</span>
+ <span class="s3">* class.</span>
+ <span class="s3">* </span><span class="s4">&lt;p&gt;</span>
+ <span class="s3">* 3. For those who struggle with this final lab a solution is provided.</span>
+ <span class="s3">* However, you should not look at the solution unless absolutely necessary if</span>
+ <span class="s3">* you are stuck. Try to do as much of this lab on your own by doing critical</span>
+ <span class="s3">* thinking about the classes you need and the responsibilities you are giving</span>
+ <span class="s3">* each class.</span>
+ <span class="s3">* </span><span class="s4">&lt;p&gt;</span>
+ <span class="s3">* Review the tips in the document Encapsulation Checklist if needed.</span>
+ <span class="s3">*/</span>
+<span class="s0">public class </span><span class="s1">Employee </span><span class="s2">{</span>
+
+    <span class="s5">// Use constants for numbers or Strings that are repeated</span>
+    <span class="s5">// (all are called 'magic numbers', which are evil). This makes editing</span>
+    <span class="s5">// these values easier -- one place to do it.</span>
+    <span class="s0">private final </span><span class="s1">String REQUIRED_MSG </span><span class="s2">= </span><span class="s6">&quot; is mandatory &quot;</span><span class="s2">;</span>
+    <span class="s0">private final </span><span class="s1">String NEWLINE </span><span class="s2">= </span><span class="s6">&quot;</span><span class="s0">\n</span><span class="s6">&quot;</span><span class="s2">;</span>
+
+    <span class="s0">private </span><span class="s1">String firstName</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">String lastName</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">String ssn</span><span class="s2">;</span>
+    <span class="s0">private boolean </span><span class="s1">metWithHr</span><span class="s2">;</span>
+    <span class="s0">private boolean </span><span class="s1">metDeptStaff</span><span class="s2">;</span>
+    <span class="s0">private boolean </span><span class="s1">reviewedDeptPolicies</span><span class="s2">;</span>
+    <span class="s0">private boolean </span><span class="s1">movedIn</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">String cubeId</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">LocalDate orientationDate</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">EmployeeReportService reportService </span><span class="s2">= </span><span class="s0">new </span><span class="s1">EmployeeReportService</span><span class="s2">();</span>
+
+    <span class="s5">/* 
+        Notice we force certain mandatory properties by using a custom 
+        constructor. But we use the setter method to perform validation. 
+     */</span>
+    <span class="s0">public </span><span class="s1">Employee</span><span class="s2">(</span><span class="s1">String firstName</span><span class="s2">, </span><span class="s1">String lastName</span><span class="s2">, </span><span class="s1">String ssn</span><span class="s2">) {</span>
+        <span class="s5">// Using setter method guarantees validation will be performed</span>
+        <span class="s5">// Ignore the warning messages for now. Will be explained later</span>
+        <span class="s1">setFirstName</span><span class="s2">(</span><span class="s1">firstName</span><span class="s2">);</span>
+        <span class="s1">setLastName</span><span class="s2">(</span><span class="s1">lastName</span><span class="s2">);</span>
+        <span class="s1">setSsn</span><span class="s2">(</span><span class="s1">ssn</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s5">/* 
+        This should be private because it is useful only to this class and then, 
+        only as a helper method to other methods. This is method hiding - a type 
+        of encapsulation where we put frequently used code in one place for easy 
+        reuse and editing. 
+     */</span>
+    <span class="s0">private </span><span class="s1">String getFormattedDate</span><span class="s2">() {</span>
+        <span class="s1">DateTimeFormatter formatter </span><span class="s2">= </span><span class="s1">DateTimeFormatter</span><span class="s2">.</span><span class="s1">ofPattern</span><span class="s2">(</span><span class="s6">&quot;M/d/yy&quot;</span><span class="s2">);</span>
+        <span class="s0">return </span><span class="s1">formatter</span><span class="s2">.</span><span class="s1">format</span><span class="s2">(</span><span class="s1">orientationDate</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s5">/* 
+        This method is public because it must be available to other classes in 
+        this project. Notice that it controls the order in which the helper methods 
+        are called. Order isn't always an issue, but here it obviously is, which 
+        may be an important requirement. 
+     */</span>
+    <span class="s0">public void </span><span class="s1">doFirstTimeOrientation</span><span class="s2">(</span><span class="s1">String cubeId</span><span class="s2">) {</span>
+        <span class="s1">orientationDate </span><span class="s2">= </span><span class="s1">LocalDate</span><span class="s2">.</span><span class="s1">now</span><span class="s2">();</span>
+        <span class="s1">meetWithHrForBenefitAndSalaryInfo</span><span class="s2">();</span>
+        <span class="s1">meetDepartmentStaff</span><span class="s2">();</span>
+        <span class="s1">reviewDeptPolicies</span><span class="s2">();</span>
+        <span class="s1">moveIntoCubicle</span><span class="s2">(</span><span class="s1">cubeId</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s5">// The following methods may be public or private, depending on whether</span>
+    <span class="s5">// they need to be called from other classes independently.</span>
+    <span class="s5">//</span>
+    <span class="s5">// Assume this must be performed first, and assume that an employee</span>
+    <span class="s5">// would only do this once, upon being hired. If that were true, this</span>
+    <span class="s5">// method should not be public. It should only be available to this class</span>
+    <span class="s5">// and should only be called as part of the larger task of:</span>
+    <span class="s5">// doFirstTimeOrientation()</span>
+    <span class="s0">private void </span><span class="s1">meetWithHrForBenefitAndSalaryInfo</span><span class="s2">() {</span>
+        <span class="s1">metWithHr </span><span class="s2">= </span><span class="s0">true</span><span class="s2">;</span>
+        <span class="s1">reportService</span><span class="s2">.</span><span class="s1">addData</span><span class="s2">(</span><span class="s1">firstName </span><span class="s2">+ </span><span class="s6">&quot; &quot; </span><span class="s2">+ </span><span class="s1">lastName </span><span class="s2">+ </span><span class="s6">&quot; met with HR on &quot;</span>
+                <span class="s2">+ </span><span class="s1">getFormattedDate</span><span class="s2">() + </span><span class="s1">NEWLINE</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s5">// Assume this must be performed second, and assume that an employee</span>
+    <span class="s5">// would only do this once, upon being hired. If that were true, this</span>
+    <span class="s5">// method should not be public. It should only be available to this class</span>
+    <span class="s5">// and should only be called as part of the larger task of:</span>
+    <span class="s5">// doFirstTimeOrientation()</span>
+    <span class="s0">private void </span><span class="s1">meetDepartmentStaff</span><span class="s2">() {</span>
+        <span class="s1">metDeptStaff </span><span class="s2">= </span><span class="s0">true</span><span class="s2">;</span>
+        <span class="s1">reportService</span><span class="s2">.</span><span class="s1">addData</span><span class="s2">(</span><span class="s1">firstName </span><span class="s2">+ </span><span class="s6">&quot; &quot; </span><span class="s2">+ </span><span class="s1">lastName </span><span class="s2">+ </span><span class="s6">&quot; met with dept staff on &quot;</span>
+                <span class="s2">+ </span><span class="s1">getFormattedDate</span><span class="s2">() + </span><span class="s1">NEWLINE</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s5">// Assume this must be performed third. And assume that because department</span>
+    <span class="s5">// policies may change that this method may need to be called</span>
+    <span class="s5">// independently from other classes.</span>
+    <span class="s0">public void </span><span class="s1">reviewDeptPolicies</span><span class="s2">() {</span>
+        <span class="s1">reviewedDeptPolicies </span><span class="s2">= </span><span class="s0">true</span><span class="s2">;</span>
+        <span class="s1">reportService</span><span class="s2">.</span><span class="s1">addData</span><span class="s2">(</span><span class="s1">firstName </span><span class="s2">+ </span><span class="s6">&quot; &quot; </span><span class="s2">+ </span><span class="s1">lastName </span><span class="s2">+ </span><span class="s6">&quot; reviewed dept policies on &quot;</span>
+                <span class="s2">+ </span><span class="s1">getFormattedDate</span><span class="s2">() + </span><span class="s1">NEWLINE</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s5">// Assume this must be performed 4th. And assume that because employees</span>
+    <span class="s5">// sometimes change office locations that this method may need to be called</span>
+    <span class="s5">// independently from other classes.</span>
+    <span class="s0">public void </span><span class="s1">moveIntoCubicle</span><span class="s2">(</span><span class="s1">String cubeId</span><span class="s2">) {</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">cubeId </span><span class="s2">= </span><span class="s1">cubeId</span><span class="s2">;</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">movedIn </span><span class="s2">= </span><span class="s0">true</span><span class="s2">;</span>
+        <span class="s1">reportService</span><span class="s2">.</span><span class="s1">addData</span><span class="s2">(</span><span class="s1">firstName </span><span class="s2">+ </span><span class="s6">&quot; &quot; </span><span class="s2">+ </span><span class="s1">lastName </span><span class="s2">+ </span><span class="s6">&quot; moved into cubicle &quot;</span>
+                <span class="s2">+ </span><span class="s1">cubeId </span><span class="s2">+ </span><span class="s6">&quot; on &quot; </span><span class="s2">+ </span><span class="s1">getFormattedDate</span><span class="s2">() + </span><span class="s1">NEWLINE</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">String getFirstName</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">firstName</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s5">// Setter methods give the developer the power to control what data is</span>
+    <span class="s5">// allowed through validation. Throwing ane exception is the best</span>
+    <span class="s5">// practice when validation fails. Don't do a System.out.println()</span>
+    <span class="s5">// to display an error message -- not the job of this class!</span>
+    <span class="s0">public void </span><span class="s1">setFirstName</span><span class="s2">(</span><span class="s1">String firstName</span><span class="s2">) {</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">firstName </span><span class="s2">== </span><span class="s0">null </span><span class="s2">|| </span><span class="s1">firstName</span><span class="s2">.</span><span class="s1">isBlank</span><span class="s2">()) {</span>
+            <span class="s0">throw new </span><span class="s1">IllegalArgumentException</span><span class="s2">(</span><span class="s6">&quot;first name&quot; </span><span class="s2">+ </span><span class="s1">REQUIRED_MSG</span><span class="s2">);</span>
+        <span class="s2">}</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">firstName </span><span class="s2">= </span><span class="s1">firstName</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">String getLastName</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">lastName</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">setLastName</span><span class="s2">(</span><span class="s1">String lastName</span><span class="s2">) {</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">lastName </span><span class="s2">== </span><span class="s0">null </span><span class="s2">|| </span><span class="s1">lastName</span><span class="s2">.</span><span class="s1">isBlank</span><span class="s2">()) {</span>
+            <span class="s0">throw new </span><span class="s1">IllegalArgumentException</span><span class="s2">(</span><span class="s6">&quot;last name&quot; </span><span class="s2">+ </span><span class="s1">REQUIRED_MSG</span><span class="s2">);</span>
+        <span class="s2">}</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">lastName </span><span class="s2">= </span><span class="s1">lastName</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">String getSsn</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">ssn</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">setSsn</span><span class="s2">(</span><span class="s1">String ssn</span><span class="s2">) {</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">ssn </span><span class="s2">== </span><span class="s0">null </span><span class="s2">|| </span><span class="s1">ssn</span><span class="s2">.</span><span class="s1">length</span><span class="s2">() &lt; </span><span class="s7">9 </span><span class="s2">|| </span><span class="s1">ssn</span><span class="s2">.</span><span class="s1">length</span><span class="s2">() &gt; </span><span class="s7">11</span><span class="s2">) {</span>
+            <span class="s0">throw new </span><span class="s1">IllegalArgumentException</span><span class="s2">(</span><span class="s6">&quot;ssn&quot; </span><span class="s2">+ </span><span class="s1">REQUIRED_MSG</span>
+                    <span class="s2">+ </span><span class="s6">&quot;and must be between 9 and 11 characters (if hyphens are used)&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">ssn </span><span class="s2">= </span><span class="s1">ssn</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">hasMetWithHr</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">metWithHr</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">hasMetDeptStaff</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">metDeptStaff</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">hasReviewedDeptPolicies</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">reviewedDeptPolicies</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">hasMovedIn</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">movedIn</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">String getCubeId</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">cubeId</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">setCubeId</span><span class="s2">(</span><span class="s1">String cubeId</span><span class="s2">) {</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">cubeId </span><span class="s2">== </span><span class="s0">null </span><span class="s2">|| </span><span class="s1">cubeId</span><span class="s2">.</span><span class="s1">isBlank</span><span class="s2">()) {</span>
+            <span class="s0">throw new </span><span class="s1">IllegalArgumentException</span><span class="s2">(</span><span class="s6">&quot;cube id&quot; </span><span class="s2">+ </span><span class="s1">REQUIRED_MSG</span><span class="s2">);</span>
+        <span class="s2">}</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">cubeId </span><span class="s2">= </span><span class="s1">cubeId</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">LocalDate getOrientationDate</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">orientationDate</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">printReport</span><span class="s2">() {</span>
+        <span class="s1">reportService</span><span class="s2">.</span><span class="s1">outputReport</span><span class="s2">();</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+</pre>
+</body>
+</html>

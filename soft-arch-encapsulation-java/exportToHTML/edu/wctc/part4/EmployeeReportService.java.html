@@ -1,0 +1,47 @@
+<html>
+<head>
+<title>EmployeeReportService.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #5f826b; font-style: italic;}
+.s4 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#191a1c">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+EmployeeReportService.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">edu</span><span class="s2">.</span><span class="s1">wctc</span><span class="s2">.</span><span class="s1">part4</span><span class="s2">;</span>
+
+<span class="s3">/**</span>
+ <span class="s3">* This class simulates a simple type of reporting service that produces output.</span>
+ <span class="s3">* That's it's Single Responsibility. Notice how easy it would be to change the</span>
+ <span class="s3">* code in the outputReport method to use a JOptionPane for GUI output instead</span>
+ <span class="s3">* of using the current console output. And notice that making this change would</span>
+ <span class="s3">* not cause problems with any other classes. Very flexible!</span>
+ <span class="s3">*/</span>
+<span class="s0">public class </span><span class="s1">EmployeeReportService </span><span class="s2">{</span>
+
+    <span class="s0">private </span><span class="s1">String report </span><span class="s2">= </span><span class="s4">&quot;&quot;</span><span class="s2">;</span>
+
+    <span class="s0">public void </span><span class="s1">addData</span><span class="s2">(</span><span class="s1">String data</span><span class="s2">) {</span>
+        <span class="s1">report </span><span class="s2">+= </span><span class="s1">data</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">clearReport</span><span class="s2">() {</span>
+        <span class="s1">report </span><span class="s2">= </span><span class="s4">&quot;&quot;</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">outputReport</span><span class="s2">() {</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s1">report</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+<span class="s2">}</span>
+</pre>
+</body>
+</html>

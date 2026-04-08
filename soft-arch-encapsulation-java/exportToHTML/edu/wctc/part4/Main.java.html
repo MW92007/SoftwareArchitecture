@@ -1,0 +1,41 @@
+<html>
+<head>
+<title>Main.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #5f826b; font-style: italic;}
+.s4 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#191a1c">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Main.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">edu</span><span class="s2">.</span><span class="s1">wctc</span><span class="s2">.</span><span class="s1">part4</span><span class="s2">;</span>
+
+<span class="s3">/**</span>
+ <span class="s3">* This class is the startup class for the program. But together with the other</span>
+ <span class="s3">* classes provided it is not a particularly good simulation of the real world.</span>
+ <span class="s3">* Employees don't just hire themselves and them tell themselves to go through</span>
+ <span class="s3">* orientation. There's usually a company and a HR person involved.</span>
+ <span class="s3">*</span>
+ <span class="s3">* Refer to the Employee class for further directions.</span>
+ <span class="s3">*/</span>
+<span class="s0">public class </span><span class="s1">Main </span><span class="s2">{</span>
+
+    <span class="s0">public static void </span><span class="s1">main</span><span class="s2">(</span><span class="s1">String</span><span class="s2">[] </span><span class="s1">args</span><span class="s2">) {</span>
+        <span class="s1">Employee employee </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Employee</span><span class="s2">(</span><span class="s4">&quot;Peter&quot;</span><span class="s2">, </span><span class="s4">&quot;Piper&quot;</span><span class="s2">, </span><span class="s4">&quot;333-33-3333&quot;</span><span class="s2">);</span>
+
+        <span class="s1">employee</span><span class="s2">.</span><span class="s1">doFirstTimeOrientation</span><span class="s2">(</span><span class="s4">&quot;A101&quot;</span><span class="s2">);</span>
+        <span class="s1">employee</span><span class="s2">.</span><span class="s1">printReport</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+<span class="s2">}</span>
+</pre>
+</body>
+</html>
